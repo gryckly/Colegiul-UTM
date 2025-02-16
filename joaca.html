@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CUTM</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f5f5f5;
+    }
+    #startScreen, #gameScreen, #endScreen {
+      display: none;
+    }
+    .center-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    button {
+      margin: 10px;
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .game-board {
+      margin: 20px auto;
+      max-width: 400px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .part {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 60px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .part:hover {
+      background-color: #45a049;
+    }
+    .input-area {
+      margin-top: 20px;
+    }
+    #selectedEquation {
+      display: inline-block;
+      font-size: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: white;
+      width: 300px;
+      text-align: center;
+    }
+    #score, #lives {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    #endScreen img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="startScreen" class="center-screen">
+    <h1>Joacă: Alcătuiește ecuația</h1>
+    <button onclick="startGame()">Joacă</button>
+    <button onclick="exitGame()">Ieșire</button>
+  </div>
+
+  <div id="gameScreen">
+    <h1>Joacă: Alcătuiește ecuația</h1>
+    <div class="game-board" id="gameBoard"></div>
+    <div class="input-area">
+      <div id="selectedEquation"></div>
+      <button onclick="checkEquation()">Verifică</button>
+    </div>
+    <p id="score">Nivel: 1</p>
+    <p id="lives">Vieți: 3</p>
+  </div>
+
+  <div id="endScreen" class="center-screen">
+    <h1>Felicitări! Ai terminat toate nivelurile!</h1>
+    <img src="diploma.png" alt="Diploma">
+    <button onclick="exitGame()">Ieșire</button>
+  </div>
+
+  <script>
+    const levels = [
+      { equation: "√(x+4) = 2", parts: ["√(", "x+4", ")", "=", "2"] },
+      { equation: "√(x) ≥ 5", parts: ["√(", "x", ")", "≥", "5"] },
+      { equation: "x^2 - 4 ≤ 0", parts: ["x^2", "-", "4", "≤", "0"] },
+      { equation: "x + 5 = 10", parts: ["x", "+", "5", "=", "10"] },
+      { equation: "2x - 3 = 7", parts: ["2x", "-", "3", "=", "7"] },
+      { equation: "x/3 = 4", parts: ["x", "/", "3", "=", "4"] },
+      { equation: "3x + 5 = 11", parts: ["3x", "+", "5", "=", "11"] },
+      { equation: "x^2 + 5 = 10", parts: ["x^2", "+", "5", "=", "10"] },
+      { equation: "4x - 2 = 14", parts: ["4x", "-", "2", "=", "14"] },
+      { equation: "x^2 + 3x - 10 = 0", parts: ["x^2", "+", "3x", "-", "10", "=", "0"] }
+    ];
+
+    let currentLevel = 0;
+    let selectedEquation = '';
+    let lives = 3;
+
+    function startGame() {
+      document.getElementById("startScreen").style.display = "none";
+      document.getElementById("gameScreen").style.display = "block";
+      generateBoard();
+    }
+
+    function exitGame() {
+      window.location.href = "index.html";
+    }
+
+    function generateBoard() {
+      const board = document.getElementById('gameBoard');
+      const level = levels[currentLevel];
+      const shuffledParts = level.parts.sort(() => Math.random() - 0.5);
+
+      board.innerHTML = '';
+      shuffledParts.forEach(part => {
+        const partElement = document.createElement('div');
+        partElement.classList.add('part');
+        partElement.textContent = part;
+        partElement.onclick = () => addPart(part);
+        board.appendChild(partElement);
+      });
+    }
+
+    function addPart(part) {
+      selectedEquation += part;
+      document.getElementById('selectedEquation').textContent = selectedEquation;
+    }
+
+    function checkEquation() {
+      const level = levels[currentLevel];
+      const userAnswer = selectedEquation.replace(/\s+/g, '').trim();
+      const correctAnswer = level.equation.replace(/\s+/g, '').trim();
+
+      if (userAnswer === correctAnswer) {
+        alert('Corect! Treci la următorul nivel.');
+        currentLevel++;
+
+        if (currentLevel < levels.length) {
+          document.getElementById('score').textContent = `Nivel: ${currentLevel + 1}`;
+          resetGame();
+        } else {
+          document.getElementById("gameScreen").style.display = "none";
+          document.getElementById("endScreen").style.display = "block";
+        }
+      } else {
+        lives--;
+        document.getElementById('lives').textContent = `Vieți: ${lives}`;
+
+        if (lives === 0) {
+          alert('Ai pierdut! Începe din nou.');
+          resetGame(true, true);
+        } else {
+          alert('Greșit! Încearcă din nou.');
+          resetInput();
+        }
+      }
+    }
+
+    function resetInput() {
+      selectedEquation = '';
+      document.getElementById('selectedEquation').textContent = '';
+    }
+
+    function resetGame(end = false, restart = false) {
+      resetInput();
+
+      if (!end) {
+        generateBoard();
+      } else if (restart) {
+        currentLevel = 0;
+        lives = 3;
+        document.getElementById('score').textContent = `Nivel: 1`;
+        document.getElementById('lives').textContent = `Vieți: 3`;
+        generateBoard();
+      }
+    }
+
+    document.getElementById("startScreen").style.display = "block";
+  </script>
+</body>
+</html>

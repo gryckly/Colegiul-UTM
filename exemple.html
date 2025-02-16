@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CUTM</title>
+  <link rel="stylesheet" href="exemple.css">
+  <style>
+    .hidden-button {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background-color: #ffffff; /* Aceeași culoare ca fundalul */
+      border: none;
+      
+      cursor: pointer;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+    .hidden-button:hover {
+      background-color: #e0e0e0; /* Culoare vizibilă la hover */
+      color: #000000; /* Text vizibil la hover */
+    }
+  </style>
+</head>
+<body>
+  <div id="container" class="container">
+    <div id="tabs" class="tabs-container">
+
+      <div class="tabs">
+        <a id="tab1" data-tab="1" class="tab">Ecuație rațională simplă</a>
+        <a id="tab2" data-tab="2" class="tab">Ecuație cu mai mulți termeni raționali</a>
+        <a id="tab3" data-tab="3" class="tab">Inecuație rațională simplă</a>
+        <a id="tab4" data-tab="4" class="tab">Inecuație cu fracții raționale pe ambele părți</a>
+      </div>
+
+      <div class="content">
+        <div id="tabcontent1" data-tab="1" class="tabcontent">
+          <p>
+            Expresia este:
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                    <mfrac>
+                        <mn>2</mn>
+                        <mi>x</mi>
+                    </mfrac>
+                    <mo>=</mo>
+                    <mn>5</mn>
+                </mrow>
+            </math>
+        </p>
+        <p>
+          Soluția este:
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                  <mi>x</mi>
+                  <mo>=</mo>
+                  <mfrac>
+                      <mn>2</mn>
+                      <mn>5</mn>
+                  </mfrac>
+              </mrow>
+          </math>
+      </p>
+          <p>Expresia dată este simplă...</p>
+          <a href="citeste mai mult.html" class="button" role="button" style="color: black;">Mai mult</a>
+        </div>
+        <div id="tabcontent2" data-tab="2" class="tabcontent">
+          <p><math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mfrac>
+              <mrow><mi>x</mi><mo>+</mo><mn>3</mn></mrow>
+              <mrow><mi>x</mi><mo>-</mo><mn>4</mn></mrow>
+            </mfrac>
+            <mo>=</mo>
+            <mn>1</mn>
+          </math>
+          </p>
+          <p>Soluție: X = 5</p>
+          <p>este o ecuație rațională care poate fi...</p>
+          <a href="citeste mai mult2.html" class="button" role="button" style="color: black;">Mai mult</a>
+        </div>
+        <div id="tabcontent3" data-tab="3" class="tabcontent">
+          <p><math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mfrac>
+              <mn>3</mn>
+              <mrow>
+                  <mi>x</mi>
+                  <mo>+</mo>
+                  <mn>1</mn>
+                </mrow>
+                </mfrac>
+                <mo>&lt;</mo>
+                <mn>4</mn>
+                </math>
+
+          <p>Soluția: <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>x</mi>
+            <mo>&gt;</mo>
+            <mfrac>
+              <mn>-3</mn>
+              <mn>5</mn>
+            </mfrac>
+          </math>
+          </p>
+          <p> Este o inegalitate rațională...</p>
+          <a href="citeste mai mult3.html" class="button" role="button" style="color: black;">Mai mult</a>
+        </div>
+        <div id="tabcontent4" data-tab="4" class="tabcontent">
+          <p><math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mfrac>
+              <mrow><mi>x</mi><mo>+</mo><mn>2</mn></mrow>
+              <mrow><mi>x</mi><mo>-</mo><mn>1</mn></mrow>
+            </mfrac>
+            <mo>&ge;</mo>
+            <mn>0</mn>
+          </math>
+          
+          </p>
+          <p> Soluție: 
+            𝑥
+            ≤
+            −
+            2
+            x≤−2 sau 
+            𝑥
+            ≥
+            1
+            x≥1 (cu excepția lui 
+            𝑥
+            =
+            1
+            x=1)</p>
+          <p>Este o inegalitate rațională...</p>
+          <a href="citeste mai mult 4.html" class="button" role="button" style="color: black;">Mai mult</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="dark-mode-switch">
+      <label class="switch-label" for="dark-mode-switch">Dark mode</label>
+      <label class="switch">
+        <input type="checkbox" id="dark-mode-switch">
+        <span class="slider round"></span>
+      </label>
+    </div>
+
+    <!-- Butonul invizibil adăugat -->
+    <a href="index.html" class="hidden-button">Acasă</a>
+
+  </div>
+
+  <div class="small-screen">
+    <div class="small-screen-content tabcontent">
+      <p>You're going to need a bigger display my friend.</p>
+      <button class="button" type="button" role="button" value="MORE">More</button>
+    </div>
+  </div>
+
+  <script src="exemple.js"></script>
+</body>
+</html>
